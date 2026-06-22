@@ -26,7 +26,7 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-ai = ["anthropic>=0.40", "python-dotenv>=1.0"]
+ai = ["google-genai>=1.0", "python-dotenv>=1.0"]
 charts = ["matplotlib>=3.7"]
 dev = ["pytest>=8.0"]
 

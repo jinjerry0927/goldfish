@@ -71,11 +71,11 @@
 ## 🟠 v0.3 — AI 자연어 진단·코칭 (토스 ❌ / AI ✅)
 > 목표: 분석 결과를 LLM이 사람 말로 해설·경고
 
-- [ ] `anthropic` 의존성 추가, `.env`에 `ANTHROPIC_API_KEY` 양식 추가
+- [ ] `google-genai` 의존성 추가(optional), `.env`에 `GEMINI_API_KEY` 양식 추가
 - [ ] `ai/summarize.py` — 분석 결과(dict) → 프롬프트 구성
-- [ ] `ai/summarize.py` — Claude API 호출 → 자연어 요약 반환
+- [ ] `ai/summarize.py` — Gemini API(무료 티어) 호출 → 자연어 요약 반환
 - [ ] 프롬프트 설계: "진단·설명만, 투자 추천 금지" 가드레일 명시
-- [ ] AI 없이도 동작하도록 fallback 처리 (키 없으면 통계만 출력)
+- [ ] AI 없이도 동작하도록 fallback 처리 (키 없으면 통계만 출력) — **기본값 = AI 끔**
 - [ ] `cli.py`에 `--ai` 옵션 추가
 - [ ] `report.summary` 로 자연어 요약 추출 API
 - [ ] `tests/` — AI 모듈 mock 테스트

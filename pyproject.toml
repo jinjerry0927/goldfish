@@ -1,0 +1,43 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "goldfish"
+version = "0.1.0"
+description = "내 투자·거래 데이터를 어항 들여다보듯 분석해주는 도구 — 통계 + 금융 특화 진단 + AI 코칭 리포트"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "James Lee", email = "jinuk.james.lee@gmail.com" }]
+keywords = ["finance", "data-analysis", "profiling", "portfolio", "investing"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Financial and Insurance Industry",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Topic :: Office/Business :: Financial :: Investment",
+]
+dependencies = [
+    "pandas>=2.0",
+    "numpy>=1.24",
+    "typer>=0.12",
+]
+
+[project.optional-dependencies]
+ai = ["anthropic>=0.40", "python-dotenv>=1.0"]
+charts = ["matplotlib>=3.7"]
+dev = ["pytest>=8.0"]
+
+[project.scripts]
+goldfish = "goldfish.cli:app"
+
+[project.urls]
+Repository = "https://github.com/jinuk-james-lee/goldfish"
+
+[tool.hatch.build.targets.wheel]
+packages = ["goldfish"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

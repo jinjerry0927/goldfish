@@ -55,15 +55,16 @@
 - [x] 금융 데이터 컬럼 스키마 정의/검증 (필수 컬럼 안내) — `validate_schema`/`is_finance_df`, 식별자(종목코드) 분리
 
 ### 차트
-- [ ] `report/charts.py` — 종목별 비중 차트 (파이/바)
-- [ ] `report/charts.py` — 시간대별 거래 분포 차트
-- [ ] `report/charts.py` — 수익률 분포 히스토그램
-- [ ] 차트 이미지 파일 저장 기능
+- [x] `report/charts.py` — 종목별 비중 차트 (가로 막대)
+- [x] `report/charts.py` — 시간대별 거래 분포 차트 (요일/시각대 막대)
+- [x] `report/charts.py` — 수익률 분포 히스토그램 (실현손익)
+- [x] 차트 이미지 파일 저장 기능 — `save_all(df, outdir)` + CLI `--charts DIR`
+  - ⚠️ 메모: matplotlib 는 선택 의존성(`goldfish[charts]`). 한글 폰트 자동 선택(Malgun Gothic 등), Agg 백엔드.
 
 ### 마무리
-- [x] `tests/test_finance.py` 추가 (9개 통과, 총 16개 통과)
-- [ ] README에 금융 분석 예시·차트 스크린샷 추가
-- [ ] **v0.2 동작 확인** (CLI 금융 진단 출력은 확인됨 / 차트 부분 남음)
+- [x] `tests/test_finance.py` 추가 (9개) · `tests/test_charts.py` 추가 (4개) — 총 20개 통과
+- [x] README에 금융 분석 예시·차트 스크린샷 추가 (`docs/images/*.png`)
+- [x] **v0.2 동작 확인** — `goldfish examples/sample.csv [--charts DIR]` 텍스트 진단 + PNG 3종 생성 확인
 
 > 🛑 **STOP — 루프 정지선**: 위 v0.2 항목이 모두 `[x]`가 되면 여기서 멈추고 사용자에게 보고한다.
 > 사용자 확인 없이는 아래 v0.3 이후로 자동 진행하지 않는다. (다시 진행하려면 이 줄을 지우고 `/loop` 재실행)

@@ -43,6 +43,9 @@ def analyze(
     charts: Optional[Path] = typer.Option(
         None, "--charts", help="차트 PNG 를 저장할 디렉터리 (금융 데이터일 때만)",
     ),
+    ai: bool = typer.Option(
+        False, "--ai", help="AI 자연어 요약 추가 (GEMINI_API_KEY 필요, 기본 끔)",
+    ),
     version: Optional[bool] = typer.Option(
         None, "--version", callback=_version_callback, is_eager=True,
         help="버전 출력 후 종료",
@@ -85,6 +88,26 @@ def analyze(
             typer.echo(f"📊 차트 {len(saved)}개 저장:")
             for p in saved:
                 typer.echo(f"  - {p}")
+
+    if ai:
+        from goldfish import ai as ai_mod
+        from goldfish.report.summary import summary
+
+        reason = ai_mod.unavailable_reason()
+        if reason is not None:
+            typer.secho(f"AI 요약 건너뜀 — {reason}", fg=typer.colors.YELLOW, err=True)
+        else:
+            try:
+                text = summary(df)
+            except ai_mod.AIUnavailable as e:
+                typer.secho(f"AI 요약 실패 — {e}", fg=typer.colors.RED, err=True)
+            else:
+                typer.echo("")
+                typer.echo("=" * 52)
+                typer.echo("🤖 GoldFish AI 코칭 요약")
+                typer.echo("=" * 52)
+                typer.echo("")
+                typer.echo(text)
 
 
 def main() -> None:

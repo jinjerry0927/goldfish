@@ -71,16 +71,16 @@
 ## 🟠 v0.3 — AI 자연어 진단·코칭 (토스 ❌ / AI ✅)
 > 목표: 분석 결과를 LLM이 사람 말로 해설·경고
 
-- [ ] `google-genai` 의존성 추가(optional), `.env`에 `GEMINI_API_KEY` 양식 추가
-- [ ] `ai/summarize.py` — 분석 결과(dict) → 프롬프트 구성
-- [ ] `ai/summarize.py` — Gemini API(무료 티어) 호출 → 자연어 요약 반환
-- [ ] 프롬프트 설계: "진단·설명만, 투자 추천 금지" 가드레일 명시
-- [ ] AI 없이도 동작하도록 fallback 처리 (키 없으면 통계만 출력) — **기본값 = AI 끔**
-- [ ] `cli.py`에 `--ai` 옵션 추가
-- [ ] `report.summary` 로 자연어 요약 추출 API
-- [ ] `tests/` — AI 모듈 mock 테스트
-- [ ] README에 AI 요약 예시 추가
-- [ ] **v0.3 동작 확인**
+- [x] `google-genai` 의존성 추가(optional), `.env`에 `GEMINI_API_KEY` 양식 추가 — `[ai]` extra(`google-genai`, `python-dotenv`)·`.env.example`
+- [x] `ai/summarize.py` — 분석 결과(dict) → 프롬프트 구성 — `build_prompt(basic, finance)`
+- [x] `ai/summarize.py` — Gemini API(무료 티어) 호출 → 자연어 요약 반환 — `summarize()`, 호출부 `_call_gemini` 격리
+- [x] 프롬프트 설계: "진단·설명만, 투자 추천 금지" 가드레일 명시 — `SYSTEM_GUARDRAIL`
+- [x] AI 없이도 동작하도록 fallback 처리 (키 없으면 통계만 출력) — **기본값 = AI 끔** — `available()`/`unavailable_reason()`
+- [x] `cli.py`에 `--ai` 옵션 추가 — 키 없으면 노란 안내 후 통계만(exit 0)
+- [x] `report.summary` 로 자연어 요약 추출 API — `report/summary.py: summary(df)` → str|None
+- [x] `tests/` — AI 모듈 mock 테스트 — `tests/test_ai.py` 8개 (총 28개 통과)
+- [x] README에 AI 요약 예시 추가 — "AI 자연어 코칭 (v0.3)" 절
+- [x] **v0.3 동작 확인** — `goldfish examples/sample.csv --ai` (키 없는 fallback) 검증 완료
 
 > 🛑 **STOP — 루프 정지선**: 위 v0.3 항목이 모두 `[x]`가 되면 여기서 멈추고 사용자에게 보고한다.
 > 사용자 확인 없이는 아래 v0.4 이후로 자동 진행하지 않는다. (다시 진행하려면 이 줄을 지우고 `/loop` 재실행)

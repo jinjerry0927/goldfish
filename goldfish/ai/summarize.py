@@ -18,7 +18,8 @@ import os
 from typing import Any, Optional
 
 ENV_KEY = "GEMINI_API_KEY"
-DEFAULT_MODEL = "gemini-2.0-flash"
+# 무료 티어 한도가 살아있는 모델. (gemini-2.0-flash 는 무료 한도가 0으로 바뀌어 사용 불가)
+DEFAULT_MODEL = "gemini-2.5-flash"
 
 # 가드레일 시스템 프롬프트 — 투자자문/추천을 금지하고 진단·설명에 한정한다.
 SYSTEM_GUARDRAIL = (

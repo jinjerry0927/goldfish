@@ -37,8 +37,8 @@
 - [x] `tests/test_basic.py` — basic analyzer 핵심 동작 테스트 (7개 통과)
 - [x] `README.md` 초안 (소개/설치/사용 예시/면책 문구)
 - [x] `LICENSE` 추가 (MIT)
-- [ ] **git init + 첫 커밋** (`.env` 안 올라갔는지 확인!)
-- [ ] **v0.1 동작 확인**: `goldfish examples/sample.csv` 결과 검증
+- [x] **git init + 첫 커밋** (`.env` 안 올라갔는지 확인!) — `.env` 미포함·`.claude/` 제외 확인 후 커밋 `6b95b80`
+- [x] **v0.1 동작 확인**: `goldfish examples/sample.csv` 결과 검증 — `pip install -e .` 후 CLI·pytest 통과
 
 ---
 

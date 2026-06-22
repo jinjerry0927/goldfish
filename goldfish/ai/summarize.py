@@ -118,19 +118,43 @@ def _call_gemini(prompt: str, api_key: str, model: str) -> str:
     from google import genai
     from google.genai import types
 
+    try:
+        from google.genai import errors as genai_errors
+
+        api_errors: tuple[type[Exception], ...] = (genai_errors.APIError,)
+    except ImportError:  # SDK 버전에 errors 모듈이 없으면 일반 예외로 처리
+        api_errors = ()
+
     client = genai.Client(api_key=api_key)
-    response = client.models.generate_content(
-        model=model,
-        contents=prompt,
-        config=types.GenerateContentConfig(
-            system_instruction=SYSTEM_GUARDRAIL,
-            temperature=0.4,
-        ),
-    )
+    try:
+        response = client.models.generate_content(
+            model=model,
+            contents=prompt,
+            config=types.GenerateContentConfig(
+                system_instruction=SYSTEM_GUARDRAIL,
+                temperature=0.4,
+            ),
+        )
+    except api_errors as e:  # 할당량 초과·인증 실패 등 → 크래시 대신 깔끔한 사유
+        raise AIUnavailable(_friendly_api_error(e)) from e
+
     text = (getattr(response, "text", None) or "").strip()
     if not text:
         raise AIUnavailable("Gemini 응답이 비어 있습니다.")
     return text
+
+
+def _friendly_api_error(exc: Exception) -> str:
+    """genai API 예외를 사람이 읽을 짧은 한 줄 메시지로 변환한다."""
+    status = str(getattr(exc, "status", "") or "")
+    code = getattr(exc, "code", None)
+    if status == "RESOURCE_EXHAUSTED" or code == 429:
+        return "무료 티어 사용량/속도 한도 초과 — 잠시 후 다시 시도하세요 (또는 다른 모델/프로젝트)."
+    if status in ("PERMISSION_DENIED", "UNAUTHENTICATED") or code in (401, 403):
+        return "키 인증 실패 — GEMINI_API_KEY 값을 다시 확인하세요."
+    # 그 외에는 메시지 첫 줄만 짧게 노출(장문 JSON 방지)
+    msg = str(getattr(exc, "message", "") or exc).splitlines()[0]
+    return f"Gemini 호출 실패: {msg[:160]}"
 
 
 def summarize(

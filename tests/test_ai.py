@@ -67,8 +67,16 @@ def test_guardrail_forbids_recommendation():
 
 # --- 가용성/ fallback -------------------------------------------------------
 
-def test_unavailable_when_no_key(monkeypatch):
+def _force_no_key(monkeypatch):
+    """키 없는 상태를 보장 — 환경변수 제거 + 실제 .env 의 load_dotenv 무력화."""
     monkeypatch.delenv(ai_mod.ENV_KEY, raising=False)
+    import dotenv
+
+    monkeypatch.setattr(dotenv, "load_dotenv", lambda *a, **k: False)
+
+
+def test_unavailable_when_no_key(monkeypatch):
+    _force_no_key(monkeypatch)
     reason = ai_mod.unavailable_reason(api_key=None)
     assert reason is not None
     assert ai_mod.ENV_KEY in reason
@@ -76,7 +84,7 @@ def test_unavailable_when_no_key(monkeypatch):
 
 
 def test_summarize_raises_when_unavailable(monkeypatch):
-    monkeypatch.delenv(ai_mod.ENV_KEY, raising=False)
+    _force_no_key(monkeypatch)
     basic, finance = _analyses()
     try:
         ai_mod.summarize(basic, finance, api_key=None)
@@ -87,7 +95,7 @@ def test_summarize_raises_when_unavailable(monkeypatch):
 
 
 def test_report_summary_returns_none_when_unavailable(monkeypatch):
-    monkeypatch.delenv(ai_mod.ENV_KEY, raising=False)
+    _force_no_key(monkeypatch)
     assert summary(_trades_df(), api_key=None) is None
 
 
@@ -119,3 +127,29 @@ def test_report_summary_uses_ai(monkeypatch):
     monkeypatch.setattr(ai_pkg, "summarize", lambda *a, **k: "AI 요약 텍스트")
     out = summary(_trades_df(), api_key="dummy-key")
     assert out == "AI 요약 텍스트"
+
+
+class _FakeAPIError(Exception):
+    """genai APIError 흉내 — status/code 속성만 갖는다."""
+
+    def __init__(self, status="", code=None, message=""):
+        super().__init__(message or status)
+        self.status = status
+        self.code = code
+        self.message = message
+
+
+def test_friendly_api_error_quota():
+    msg = ai_mod._friendly_api_error(_FakeAPIError(status="RESOURCE_EXHAUSTED"))
+    assert "한도 초과" in msg
+
+
+def test_friendly_api_error_auth():
+    msg = ai_mod._friendly_api_error(_FakeAPIError(status="PERMISSION_DENIED"))
+    assert "인증 실패" in msg
+
+
+def test_friendly_api_error_other_is_single_line():
+    msg = ai_mod._friendly_api_error(_FakeAPIError(message="boom\n세부정보\n더보기"))
+    assert "\n" not in msg
+    assert "boom" in msg

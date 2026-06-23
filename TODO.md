@@ -110,7 +110,8 @@
 ## 🟣 v1.0 — 배포 + 브랜딩
 > 목표: `pip install goldfish` 로 누구나 사용
 
-- [ ] PyPI에 `goldfish` 이름 사용 가능 여부 확인 (불가 시 대체명)
+- [x] PyPI에 `goldfish` 이름 사용 가능 여부 확인 (불가 시 대체명)
+  - ⚠️ 메모(2026-06-23): `goldfish` **사용 불가** — PyPI에 이미 존재(Adam Obeng의 메모이제이션 패키지 0.1.0, GPLv3, 무관). `goldfish-cli`도 선점됨. 사용 가능(404) 후보: `goldfish-finance`, `goldfish-report`, `goldfish-invest`, `goldfish-portfolio`, `goldfish-analyzer`, `goldfish-fin`, `goldfish-stocks`, `finfish`, `investfish`. **import 패키지명은 `goldfish` 유지 가능, 배포(distribution)명만 변경하면 됨.** 추천: `goldfish-finance`. 🛑 공개 브랜드명 결정은 사용자 몫이라 여기서 멈추고 보고 — 이름 확정 후 메타데이터/README/배포 항목 진행.
 - [ ] 패키지 메타데이터 정리 (분류자/키워드/링크)
 - [ ] 금붕어 🐠 마스코트/로고 제작
 - [ ] README 완성 (배지, GIF 데모, 태그라인)

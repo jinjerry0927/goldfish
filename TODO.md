@@ -138,7 +138,7 @@
 - [x] `goldfish init` 명령 — 워크스페이스(양식 csv/xlsx·리포트 폴더·사용법·Win/Mac 런처) 자동 생성. `workspace.py`.
 - [x] 폴더 일괄 분석 — `goldfish <폴더>` 로 폴더 내 csv/xlsx → `리포트/` HTML 일괄. `cli.py: _run_folder`. 기존 `goldfish <csv>` 하위호환 라우팅 유지(`init`/`analyze` 서브명령 추가하면서). `tests/test_init.py` 5개.
 - [x] 버전 1.0.0 → 1.1.0, README v1.1 절·로드맵 갱신, `[xlsx]` extra 추가. 전체 65개 테스트 통과.
-- [ ] 빌드 + TestPyPI 검증 → 사용자 확인 후 **PyPI 1.1.0 배포** + `v1.1.0` 태그/릴리스 (🛑 배포 직전 확인)
+- [x] 빌드 + TestPyPI 검증 → **PyPI 1.1.0 배포 완료**(2026-06-23, https://pypi.org/project/goldfish-finance/1.1.0/) + `v1.1.0` 태그 푸시. GitHub 릴리스 페이지 노트는 토큰 부재로 사용자 발행 예정.
 
 ---
 

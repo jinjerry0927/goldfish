@@ -118,9 +118,9 @@
   - ⚠️ 메모: **GIF 데모는 보류** — 실제 터미널 세션 녹화(asciinema/terminalizer 등)가 필요해 자율 루프에서 생성 불가. 사용자가 `goldfish examples/sample.csv` 실행 장면을 녹화해 `docs/images/demo.gif`로 추가하면 README에 끼워넣을 자리만 준비됨.
 - [x] `CONTRIBUTING.md` + 이슈/PR 템플릿 — 개발환경/테스트/구조/상시원칙(read-only 등) 담은 CONTRIBUTING.md, `.github/PULL_REQUEST_TEMPLATE.md`, 이슈 템플릿 2종(버그/기능)
 - [x] GitHub Actions CI (테스트 자동 실행) — `.github/workflows/ci.yml`: push/PR(main) 트리거, Python 3.10~3.13 매트릭스, `.[dev,charts,toss,ai]` 설치 후 `pytest -q`. YAML 유효성 확인
-- [ ] TestPyPI 업로드 테스트
-- [ ] **PyPI 정식 배포**
-- [ ] GitHub 릴리스 v1.0 태그
+- [x] TestPyPI 업로드 테스트 — goldfish-finance 1.0.0 업로드 후 깨끗한 venv 설치·CLI 실행 검증 완료 (https://test.pypi.org/project/goldfish-finance/1.0.0/)
+- [x] **PyPI 정식 배포** — 2026-06-23 배포 완료, 라이브 확인: https://pypi.org/project/goldfish-finance/1.0.0/ (`pip install goldfish-finance`)
+- [x] GitHub 릴리스 v1.0 태그 — `v1.0.0` 태그 생성·푸시 완료. (릴리스 페이지 노트는 토큰 부재로 사용자가 웹에서 발행 예정)
 
 > 🛑 **STOP — 루프 정지선**: 위 v1.0 항목이 모두 `[x]`가 되면 여기서 멈추고 사용자에게 보고한다.
 > v1.0 진행은 승인됨(정지선을 v1.0 끝으로 이동). 단, **되돌릴 수 없는 외부 공개 단계

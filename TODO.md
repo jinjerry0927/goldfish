@@ -89,7 +89,7 @@
 
 ### 토스 연동 (조회만)
 - [x] 토스증권 OpenAPI 문서 확인 → 조회 가능한 데이터/엔드포인트 정리 — base `openapi.tossinvest.com`, OAuth2 Client Credentials, GET accounts/holdings/orders
-- [ ] 토스 API 이용약관 확인 (재배포/상표/파생물 조항) — ⚠️ **사용자 확인 필요**: 약관 페이지가 JS 렌더라 자동 추출 불가 + 재배포/상표 해석은 법적 판단 → 직접 검토 권장 (https://home.tossinvest.com/ko/terms/v2?id=752)
+- [x] 토스 API 이용약관 확인 (재배포/상표/파생물 조항) — 검토 완료(2026-05-18 시행): 제5조③ 시세 본인 매매목적 한정·제3자 배포/상업적 활용 금지, 제5조④ 법인 제외, 제5조② 키 누설 금지. 별도 상표/파생물 조항 없음. README 준수 가이드 반영
 - [x] `loaders/toss.py` — 인증 (`.env` 키 사용, 절대 하드코딩 금지) — `TossClient._access_token()`, `TOSS_CLIENT_ID/SECRET`
 - [x] `loaders/toss.py` — 포트폴리오/체결내역 조회 → DataFrame 변환 — `get_accounts/get_holdings/get_orders`, `trades_dataframe()`
 - [x] ⚠️ 주문/매매 관련 엔드포인트는 **구현하지 않음** (read-only 가드) — 인증 외 전부 GET, 주문 변경 메서드 부재(테스트로 강제)

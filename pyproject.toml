@@ -3,21 +3,39 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "goldfish"
+name = "goldfish-finance"
 version = "0.4.0"
 description = "내 투자·거래 데이터를 어항 들여다보듯 분석해주는 도구 — 통계 + 금융 특화 진단 + AI 코칭 리포트"
 readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "MIT" }
 authors = [{ name = "James Lee", email = "jinuk.james.lee@gmail.com" }]
-keywords = ["finance", "data-analysis", "profiling", "portfolio", "investing"]
+keywords = [
+    "finance",
+    "data-analysis",
+    "profiling",
+    "portfolio",
+    "investing",
+    "trading",
+    "korean-stock",
+    "report",
+    "cli",
+]
 classifiers = [
-    "Development Status :: 3 - Alpha",
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
     "Intended Audience :: Financial and Insurance Industry",
+    "Intended Audience :: End Users/Desktop",
     "License :: OSI Approved :: MIT License",
+    "Natural Language :: Korean",
+    "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
     "Topic :: Office/Business :: Financial :: Investment",
+    "Topic :: Scientific/Engineering :: Information Analysis",
 ]
 dependencies = [
     "pandas>=2.0",
@@ -35,7 +53,10 @@ dev = ["pytest>=8.0"]
 goldfish = "goldfish.cli:main"
 
 [project.urls]
-Repository = "https://github.com/jinuk-james-lee/goldfish"
+Homepage = "https://github.com/jinjerry0927/goldfish"
+Repository = "https://github.com/jinjerry0927/goldfish"
+Issues = "https://github.com/jinjerry0927/goldfish/issues"
+Changelog = "https://github.com/jinjerry0927/goldfish/blob/main/TODO.md"
 
 [tool.hatch.build.targets.wheel]
 packages = ["goldfish"]

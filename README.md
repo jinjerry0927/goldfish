@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/images/logo.svg" alt="GoldFish 로고" width="160">
+  <img src="docs/images/goldfish-finance.png" alt="GoldFish 로고" width="160">
 </p>
 
 <h1 align="center">🐠 GoldFish</h1>

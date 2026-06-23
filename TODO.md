@@ -96,9 +96,9 @@
 - [x] 토스 응답 → goldfish 표준 스키마 매핑 — `orders_to_dataframe()` (체결완료 주문 → 체결일/종목코드/종목명/매매구분/수량/단가/거래금액)
 
 ### HTML 리포트
-- [ ] `report/html.py` — 차트 + 텍스트 + AI 요약을 HTML 한 장으로
-- [ ] HTML 템플릿 디자인 (금붕어 브랜딩)
-- [ ] `report.to_html(path)` API
+- [x] `report/html.py` — 차트 + 텍스트 + AI 요약을 HTML 한 장으로 — 차트 base64 인라인 임베드(자기완결), `--html` CLI 옵션
+- [x] HTML 템플릿 디자인 (금붕어 브랜딩) — 골드(#f5a623) 팔레트·카드 레이아웃·집중도 막대·면책 푸터
+- [x] `report.to_html(path)` API — `goldfish.report.to_html(df, path, ...)` / `render_html(df) -> str`
 
 ### 마무리
 - [x] 토스 로더 테스트 (샌드박스/mock) — `tests/test_toss.py` 14개 (총 42개 통과)

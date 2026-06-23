@@ -43,6 +43,9 @@ def analyze(
     charts: Optional[Path] = typer.Option(
         None, "--charts", help="차트 PNG 를 저장할 디렉터리 (금융 데이터일 때만)",
     ),
+    html: Optional[Path] = typer.Option(
+        None, "--html", help="분석 결과를 HTML 리포트 한 장으로 저장할 경로",
+    ),
     ai: bool = typer.Option(
         False, "--ai", help="AI 자연어 요약 추가 (GEMINI_API_KEY 필요, 기본 끔)",
     ),
@@ -89,6 +92,7 @@ def analyze(
             for p in saved:
                 typer.echo(f"  - {p}")
 
+    ai_text: Optional[str] = None
     if ai:
         from goldfish import ai as ai_mod
         from goldfish.report.summary import summary
@@ -98,7 +102,7 @@ def analyze(
             typer.secho(f"AI 요약 건너뜀 — {reason}", fg=typer.colors.YELLOW, err=True)
         else:
             try:
-                text = summary(df)
+                ai_text = summary(df)
             except ai_mod.AIUnavailable as e:
                 typer.secho(f"AI 요약 실패 — {e}", fg=typer.colors.RED, err=True)
             else:
@@ -107,7 +111,15 @@ def analyze(
                 typer.echo("🤖 GoldFish AI 코칭 요약")
                 typer.echo("=" * 52)
                 typer.echo("")
-                typer.echo(text)
+                typer.echo(ai_text)
+
+    if html is not None:
+        from goldfish.report.html import to_html
+
+        # --ai 로 만든 요약이 있으면 HTML 에도 함께 싣는다.
+        saved_html = to_html(df, html, ai_summary=ai_text)
+        typer.echo("")
+        typer.echo(f"📄 HTML 리포트 저장: {saved_html}")
 
 
 def main() -> None:

@@ -115,8 +115,8 @@
 - [x] 패키지 메타데이터 정리 (분류자/키워드/링크) — 배포명 `goldfish-finance` 확정(import 는 `goldfish` 유지). classifiers 보강(Beta·Python 3.10~3.13·Korean·OS Independent 등), keywords 확장, urls(Homepage/Repository/Issues/Changelog) 추가, 잘못된 GitHub URL(`jinuk-james-lee`→`jinjerry0927`) 정정. 50개 테스트 통과 확인.
 - [ ] 금붕어 🐠 마스코트/로고 제작
 - [ ] README 완성 (배지, GIF 데모, 태그라인)
-- [ ] `CONTRIBUTING.md` + 이슈/PR 템플릿
-- [ ] GitHub Actions CI (테스트 자동 실행)
+- [x] `CONTRIBUTING.md` + 이슈/PR 템플릿 — 개발환경/테스트/구조/상시원칙(read-only 등) 담은 CONTRIBUTING.md, `.github/PULL_REQUEST_TEMPLATE.md`, 이슈 템플릿 2종(버그/기능)
+- [x] GitHub Actions CI (테스트 자동 실행) — `.github/workflows/ci.yml`: push/PR(main) 트리거, Python 3.10~3.13 매트릭스, `.[dev,charts,toss,ai]` 설치 후 `pytest -q`. YAML 유효성 확인
 - [ ] TestPyPI 업로드 테스트
 - [ ] **PyPI 정식 배포**
 - [ ] GitHub 릴리스 v1.0 태그

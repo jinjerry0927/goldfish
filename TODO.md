@@ -130,6 +130,18 @@
 
 ---
 
+## 🟣 v1.1 — 워크스페이스 + 입력 자동 정리
+> 목표: 비개발자도 "폴더에 넣고 더블클릭"으로 쓰게. 실데이터 입력 마찰 제거.
+
+- [x] CSV 로더 천단위 쉼표 자동 처리 — `loaders/csv.py: _coerce_numeric_with_commas` (쉼표 든 숫자 컬럼만 변환, 종목코드 등 식별자 제외). 실사용자 KB M-able 데이터에서 단가·실현손익이 문자로 읽혀 손익분석이 비던 문제 해결. `tests/test_csv_loader.py` 6개.
+- [x] 공통 표 로더 `loaders/table.py: load_table` — CSV/엑셀(xlsx) 통합 읽기, 빈 행 제거, 종목코드 0 보존. xlsx 는 openpyxl 필요(optional `[xlsx]`). `tests/test_table.py` 4개.
+- [x] `goldfish init` 명령 — 워크스페이스(양식 csv/xlsx·리포트 폴더·사용법·Win/Mac 런처) 자동 생성. `workspace.py`.
+- [x] 폴더 일괄 분석 — `goldfish <폴더>` 로 폴더 내 csv/xlsx → `리포트/` HTML 일괄. `cli.py: _run_folder`. 기존 `goldfish <csv>` 하위호환 라우팅 유지(`init`/`analyze` 서브명령 추가하면서). `tests/test_init.py` 5개.
+- [x] 버전 1.0.0 → 1.1.0, README v1.1 절·로드맵 갱신, `[xlsx]` extra 추가. 전체 65개 테스트 통과.
+- [ ] 빌드 + TestPyPI 검증 → 사용자 확인 후 **PyPI 1.1.0 배포** + `v1.1.0` 태그/릴리스 (🛑 배포 직전 확인)
+
+---
+
 ## 📌 상시 원칙 (매 작업 시 점검)
 1. 토스 API는 **조회만** — 주문/매매 코드 절대 금지
 2. 키는 `.env`에만 — 커밋 전 항상 `git status`로 `.env` 미포함 확인

@@ -37,9 +37,71 @@ def _version_callback(value: bool) -> None:
         raise typer.Exit()
 
 
+@app.callback()
+def _root(
+    version: Optional[bool] = typer.Option(
+        None, "--version", callback=_version_callback, is_eager=True,
+        help="버전 출력 후 종료",
+    ),
+) -> None:
+    """🐠 GoldFish — 내 투자·거래 데이터를 어항 들여다보듯 분석."""
+    _force_utf8_stdio()
+
+
+def _run_folder(folder: Path) -> None:
+    """폴더 안의 모든 CSV/엑셀을 분석해 ``리포트/`` 에 HTML 로 저장한다."""
+    from goldfish.loaders.table import load_table
+    from goldfish.report.html import to_html
+    from goldfish.workspace import SKIP_DIRS
+
+    inputs = sorted(
+        p for ext in ("*.csv", "*.xlsx", "*.xls", "*.xlsm")
+        for p in folder.glob(ext)
+        if p.parent.name not in SKIP_DIRS and not p.name.startswith("~$")
+    )
+    if not inputs:
+        typer.secho(
+            f"분석할 CSV/엑셀 파일이 없습니다. 이 폴더에 넣어주세요:\n  {folder}",
+            fg=typer.colors.YELLOW,
+        )
+        typer.echo("(입력 양식은 '_템플릿' 폴더 참고)")
+        return
+
+    out = folder / "리포트"
+    out.mkdir(exist_ok=True)
+    typer.echo(f"🐠 {len(inputs)}개 파일 분석 시작...\n")
+    made = 0
+    for p in inputs:
+        try:
+            df = load_table(p)
+            target = out / (p.stem + "_리포트.html")
+            to_html(df, target)
+            made += 1
+            typer.echo(f"  ✅ {p.name}  →  리포트/{target.name}")
+        except Exception as e:  # noqa: BLE001
+            typer.secho(f"  ⚠️  {p.name} 실패: {e}", fg=typer.colors.RED, err=True)
+    typer.echo(f"\n📊 리포트 {made}개 생성 완료 → {out}")
+
+
+@app.command()
+def init(
+    directory: Path = typer.Argument(
+        Path("goldfish-분석"), help="생성할 워크스페이스 폴더 (기본: goldfish-분석)",
+    ),
+) -> None:
+    """분석 워크스페이스 폴더(양식·실행기·리포트 폴더)를 생성한다."""
+    from goldfish.workspace import init_workspace
+
+    path = init_workspace(directory)
+    typer.echo(f"🐠 워크스페이스 생성 완료: {path.resolve()}")
+    typer.echo("  1) 거래내역 CSV/엑셀 파일을 이 폴더에 넣으세요 (양식은 _템플릿).")
+    typer.echo("  2) '리포트_만들기.bat'(Windows) 더블클릭 또는:")
+    typer.echo(f"       goldfish \"{path}\"")
+
+
 @app.command()
 def analyze(
-    csv_path: Path = typer.Argument(..., help="분석할 CSV 파일 경로"),
+    csv_path: Path = typer.Argument(..., help="분석할 CSV 파일, 또는 워크스페이스 폴더"),
     charts: Optional[Path] = typer.Option(
         None, "--charts", help="차트 PNG 를 저장할 디렉터리 (금융 데이터일 때만)",
     ),
@@ -49,13 +111,15 @@ def analyze(
     ai: bool = typer.Option(
         False, "--ai", help="AI 자연어 요약 추가 (GEMINI_API_KEY 필요, 기본 끔)",
     ),
-    version: Optional[bool] = typer.Option(
-        None, "--version", callback=_version_callback, is_eager=True,
-        help="버전 출력 후 종료",
-    ),
 ) -> None:
-    """CSV 를 읽어 기본 분석 결과를 텍스트로 출력한다."""
+    """CSV 파일을 분석해 텍스트로 출력한다. 폴더를 주면 안의 파일을 일괄 분석한다."""
     _force_utf8_stdio()
+
+    # 폴더면 일괄 분석(워크스페이스 모드)
+    if csv_path.is_dir():
+        _run_folder(csv_path)
+        return
+
     try:
         df = load_csv(csv_path)
     except FileNotFoundError as e:
@@ -122,13 +186,22 @@ def analyze(
         typer.echo(f"📄 HTML 리포트 저장: {saved_html}")
 
 
+#: 명시적 서브명령(이 외의 첫 인자는 파일/폴더 경로로 보고 analyze 로 라우팅)
+_SUBCOMMANDS = {"analyze", "init"}
+
+
 def main() -> None:
     _force_utf8_stdio()
+    argv = sys.argv[1:]
     # 인자 없이 호출되면 도움말 출력
-    if len(sys.argv) == 1:
+    if not argv:
         app(["--help"])
-    else:
-        app()
+        return
+    # 'goldfish <csv>' 하위호환: 첫 인자가 서브명령/옵션이 아니면 analyze 로 라우팅
+    first = argv[0]
+    if first not in _SUBCOMMANDS and not first.startswith("-"):
+        argv = ["analyze", *argv]
+    app(argv)
 
 
 if __name__ == "__main__":

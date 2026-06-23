@@ -88,12 +88,12 @@
 > 목표: 실데이터 연동 + 완성형 리포트. **read-only 엄수**
 
 ### 토스 연동 (조회만)
-- [ ] 토스증권 OpenAPI 문서 확인 → 조회 가능한 데이터/엔드포인트 정리
-- [ ] 토스 API 이용약관 확인 (재배포/상표/파생물 조항)
-- [ ] `loaders/toss.py` — 인증 (`.env` 키 사용, 절대 하드코딩 금지)
-- [ ] `loaders/toss.py` — 포트폴리오/체결내역 조회 → DataFrame 변환
-- [ ] ⚠️ 주문/매매 관련 엔드포인트는 **구현하지 않음** (read-only 가드)
-- [ ] 토스 응답 → goldfish 표준 스키마 매핑
+- [x] 토스증권 OpenAPI 문서 확인 → 조회 가능한 데이터/엔드포인트 정리 — base `openapi.tossinvest.com`, OAuth2 Client Credentials, GET accounts/holdings/orders
+- [ ] 토스 API 이용약관 확인 (재배포/상표/파생물 조항) — ⚠️ **사용자 확인 필요**: 약관 페이지가 JS 렌더라 자동 추출 불가 + 재배포/상표 해석은 법적 판단 → 직접 검토 권장 (https://home.tossinvest.com/ko/terms/v2?id=752)
+- [x] `loaders/toss.py` — 인증 (`.env` 키 사용, 절대 하드코딩 금지) — `TossClient._access_token()`, `TOSS_CLIENT_ID/SECRET`
+- [x] `loaders/toss.py` — 포트폴리오/체결내역 조회 → DataFrame 변환 — `get_accounts/get_holdings/get_orders`, `trades_dataframe()`
+- [x] ⚠️ 주문/매매 관련 엔드포인트는 **구현하지 않음** (read-only 가드) — 인증 외 전부 GET, 주문 변경 메서드 부재(테스트로 강제)
+- [x] 토스 응답 → goldfish 표준 스키마 매핑 — `orders_to_dataframe()` (체결완료 주문 → 체결일/종목코드/종목명/매매구분/수량/단가/거래금액)
 
 ### HTML 리포트
 - [ ] `report/html.py` — 차트 + 텍스트 + AI 요약을 HTML 한 장으로
@@ -101,7 +101,7 @@
 - [ ] `report.to_html(path)` API
 
 ### 마무리
-- [ ] 토스 로더 테스트 (샌드박스/mock)
+- [x] 토스 로더 테스트 (샌드박스/mock) — `tests/test_toss.py` 14개 (총 42개 통과)
 - [ ] README에 토스 연동 가이드 + 보안 경고
 - [ ] **v0.4 동작 확인**
 

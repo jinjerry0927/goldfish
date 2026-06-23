@@ -113,8 +113,9 @@
 - [x] PyPI에 `goldfish` 이름 사용 가능 여부 확인 (불가 시 대체명)
   - ⚠️ 메모(2026-06-23): `goldfish` **사용 불가** — PyPI에 이미 존재(Adam Obeng의 메모이제이션 패키지 0.1.0, GPLv3, 무관). `goldfish-cli`도 선점됨. 사용 가능(404) 후보: `goldfish-finance`, `goldfish-report`, `goldfish-invest`, `goldfish-portfolio`, `goldfish-analyzer`, `goldfish-fin`, `goldfish-stocks`, `finfish`, `investfish`. **import 패키지명은 `goldfish` 유지 가능, 배포(distribution)명만 변경하면 됨.** 추천: `goldfish-finance`. 🛑 공개 브랜드명 결정은 사용자 몫이라 여기서 멈추고 보고 — 이름 확정 후 메타데이터/README/배포 항목 진행.
 - [x] 패키지 메타데이터 정리 (분류자/키워드/링크) — 배포명 `goldfish-finance` 확정(import 는 `goldfish` 유지). classifiers 보강(Beta·Python 3.10~3.13·Korean·OS Independent 등), keywords 확장, urls(Homepage/Repository/Issues/Changelog) 추가, 잘못된 GitHub URL(`jinuk-james-lee`→`jinjerry0927`) 정정. 50개 테스트 통과 확인.
-- [ ] 금붕어 🐠 마스코트/로고 제작
-- [ ] README 완성 (배지, GIF 데모, 태그라인)
+- [x] 금붕어 🐠 마스코트/로고 제작 — `docs/images/logo.svg` 직접 제작(어항 속 금붕어, 골드 #f5a623 팔레트로 HTML 리포트와 통일). 외부 유료 생성 서비스 미사용(SVG 수작업, 무료·수정 용이). README 상단 임베드.
+- [x] README 완성 (배지, GIF 데모, 태그라인) — 로고+태그라인 헤더, 배지 4종(CI/PyPI/pyversions/License) 추가.
+  - ⚠️ 메모: **GIF 데모는 보류** — 실제 터미널 세션 녹화(asciinema/terminalizer 등)가 필요해 자율 루프에서 생성 불가. 사용자가 `goldfish examples/sample.csv` 실행 장면을 녹화해 `docs/images/demo.gif`로 추가하면 README에 끼워넣을 자리만 준비됨.
 - [x] `CONTRIBUTING.md` + 이슈/PR 템플릿 — 개발환경/테스트/구조/상시원칙(read-only 등) 담은 CONTRIBUTING.md, `.github/PULL_REQUEST_TEMPLATE.md`, 이슈 템플릿 2종(버그/기능)
 - [x] GitHub Actions CI (테스트 자동 실행) — `.github/workflows/ci.yml`: push/PR(main) 트리거, Python 3.10~3.13 매트릭스, `.[dev,charts,toss,ai]` 설치 후 `pytest -q`. YAML 유효성 확인
 - [ ] TestPyPI 업로드 테스트

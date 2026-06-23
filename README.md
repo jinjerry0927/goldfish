@@ -1,8 +1,19 @@
-# 🐠 GoldFish
+<p align="center">
+  <img src="docs/images/logo.svg" alt="GoldFish 로고" width="160">
+</p>
 
-> 내 투자·거래 데이터를 어항 들여다보듯 분석해주는 도구
->
-> **Watch your money swim.**
+<h1 align="center">🐠 GoldFish</h1>
+
+<p align="center">
+  <em>내 투자·거래 데이터를 어항 들여다보듯 분석해주는 도구 — <strong>Watch your money swim.</strong></em>
+</p>
+
+<p align="center">
+  <a href="https://github.com/jinjerry0927/goldfish/actions/workflows/ci.yml"><img src="https://github.com/jinjerry0927/goldfish/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
+  <a href="https://pypi.org/project/goldfish-finance/"><img src="https://img.shields.io/pypi/v/goldfish-finance.svg" alt="PyPI"></a>
+  <img src="https://img.shields.io/pypi/pyversions/goldfish-finance.svg" alt="Python versions">
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-green.svg" alt="License: MIT"></a>
+</p>
 
 CSV 또는 토스증권 조회 API로 투자·거래 데이터를 넣으면 **통계 프로파일링 + 금융 특화 진단 + AI 자연어 코칭**을 담은 리포트(텍스트·차트·HTML)를 만들어 주는 Python 라이브러리/CLI입니다.
 

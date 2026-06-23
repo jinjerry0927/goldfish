@@ -1,6 +1,8 @@
 """goldfish init 워크스페이스 스캐폴딩 + CLI 라우팅 테스트."""
 from __future__ import annotations
 
+from pathlib import Path
+
 from goldfish.cli import _SUBCOMMANDS, _run_folder
 from goldfish.workspace import init_workspace
 
@@ -46,3 +48,23 @@ def test_run_folder_generates_reports(tmp_path):
 
 def test_subcommands_registered():
     assert {"analyze", "init"} <= _SUBCOMMANDS
+
+
+def test_bat_launcher_has_no_trailing_slash_bug(tmp_path):
+    # %~dp0 는 끝에 역슬래시가 있어 "%~dp0" 가 따옴표를 깨뜨림 → '.' 을 써야 함
+    ws = init_workspace(tmp_path / "ws")
+    bat = (ws / "리포트_만들기.bat").read_text(encoding="utf-8")
+    assert "goldfish.cli ." in bat
+    assert 'goldfish.cli "%~dp0"' not in bat  # 경로 인자로 %~dp0 직접 사용 금지
+
+
+def test_run_folder_with_relative_dot(tmp_path, monkeypatch):
+    # 런처가 cd 후 '.' 으로 호출하는 시나리오 재현
+    ws = init_workspace(tmp_path / "ws")
+    (ws / "거래.csv").write_text(
+        "체결일,종목명,매매구분,수량,단가,거래금액\n2026-01-15,삼성전자,매수,10,72000,720000\n",
+        encoding="utf-8",
+    )
+    monkeypatch.chdir(ws)
+    _run_folder(Path("."))
+    assert (ws / "리포트" / "거래_리포트.html").exists()

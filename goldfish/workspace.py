@@ -62,7 +62,7 @@ BAT_LAUNCHER = """@echo off
 chcp 65001 >nul
 title GoldFish 리포트 만들기
 cd /d "%~dp0"
-python -m goldfish.cli "%~dp0"
+python -m goldfish.cli .
 echo.
 pause
 """
@@ -70,7 +70,7 @@ pause
 SH_LAUNCHER = """#!/bin/sh
 # GoldFish 리포트 만들기 (macOS/Linux)
 cd "$(dirname "$0")"
-python3 -m goldfish.cli "$(dirname "$0")"
+python3 -m goldfish.cli .
 """
 
 

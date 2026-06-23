@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "goldfish-finance"
-version = "1.1.0"
+version = "1.1.1"
 description = "내 투자·거래 데이터를 어항 들여다보듯 분석해주는 도구 — 통계 + 금융 특화 진단 + AI 코칭 리포트"
 readme = "README.md"
 requires-python = ">=3.10"
